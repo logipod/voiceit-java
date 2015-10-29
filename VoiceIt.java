@@ -138,17 +138,17 @@ public class VoiceIt {
 
 	public String setUser(String email, String password,String firstName,String lastName) throws IOException
 	{
-		return createUser(email,password,firstName,lastName,"","","");
+		return setUser(email,password,firstName,lastName,"","","");
 	}
 
 	public String setUser(String email, String password,String firstName,String lastName,String phone1) throws IOException
 	{
-		return createUser(email,password,firstName,lastName,phone1,"","");
+		return setUser(email,password,firstName,lastName,phone1,"","");
 	}
 
 	public String setUser(String email, String password,String firstName,String lastName,String phone1,String phone2) throws IOException
 	{
-		return createUser(email,password,firstName,lastName,phone1,phone2,"");
+		return setUser(email,password,firstName,lastName,phone1,phone2,"");
 	}
 
 	public String deleteUser(String email, String password) throws IOException {
