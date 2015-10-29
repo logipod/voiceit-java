@@ -62,13 +62,13 @@ public class VoiceIt {
 			try (InputStream inputStream = connection.getResponseCode() == 200 ? connection.getInputStream() : connection.getErrorStream()) {
 				return readInputStream(inputStream);
 			}
-			} 
+			}
 			finally {
 			if (connection != null)
 				connection.disconnect();
 		}
 	}
-	
+
 	public String createUser(String email, String password,String firstName,String lastName, String phone1,String phone2,String phone3) throws IOException {
 		URL url = new URL("https://siv.voiceprintportal.com/sivservice/api/users");
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -87,30 +87,30 @@ public class VoiceIt {
 			try (InputStream inputStream = connection.getResponseCode() == 200 ? connection.getInputStream() : connection.getErrorStream()) {
 				return readInputStream(inputStream);
 			}
-			} 
+			}
 			finally {
 			if (connection != null)
 				connection.disconnect();
 		}
 	}
-	
+
 	//Added CreateUser Method Calls to make the phone numbers optional
 	public String createUser(String email, String password,String firstName,String lastName) throws IOException
 	{
 		return createUser(email,password,firstName,lastName,"","","");
 	}
-	
+
 	public String createUser(String email, String password,String firstName,String lastName,String phone1) throws IOException
 	{
 		return createUser(email,password,firstName,lastName,phone1,"","");
 	}
-	
+
 	public String createUser(String email, String password,String firstName,String lastName,String phone1,String phone2) throws IOException
 	{
 		return createUser(email,password,firstName,lastName,phone1,phone2,"");
 	}
-	
-	
+
+
 	public String setUser(String email, String password,String firstName,String lastName, String phone1,String phone2,String phone3) throws IOException {
 		URL url = new URL("https://siv.voiceprintportal.com/sivservice/api/users");
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -129,28 +129,28 @@ public class VoiceIt {
 			try (InputStream inputStream = connection.getResponseCode() == 200 ? connection.getInputStream() : connection.getErrorStream()) {
 				return readInputStream(inputStream);
 			}
-			} 
+			}
 			finally {
 			if (connection != null)
 				connection.disconnect();
 		}
 	}
-	
+
 	public String setUser(String email, String password,String firstName,String lastName) throws IOException
 	{
 		return createUser(email,password,firstName,lastName,"","","");
 	}
-	
+
 	public String setUser(String email, String password,String firstName,String lastName,String phone1) throws IOException
 	{
 		return createUser(email,password,firstName,lastName,phone1,"","");
 	}
-	
+
 	public String setUser(String email, String password,String firstName,String lastName,String phone1,String phone2) throws IOException
 	{
 		return createUser(email,password,firstName,lastName,phone1,phone2,"");
 	}
-	
+
 	public String deleteUser(String email, String password) throws IOException {
 		URL url = new URL("https://siv.voiceprintportal.com/sivservice/api/users");
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -164,13 +164,13 @@ public class VoiceIt {
 			try (InputStream inputStream = connection.getResponseCode() == 200 ? connection.getInputStream() : connection.getErrorStream()) {
 				return readInputStream(inputStream);
 			}
-			} 
+			}
 			finally {
 			if (connection != null)
 				connection.disconnect();
 		}
 	}
-	
+
 	public String createEnrollment(String email, String password,String pathToEnrollmentWav) throws IOException {
 		URL url = new URL("https://siv.voiceprintportal.com/sivservice/api/enrollments");
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -191,13 +191,13 @@ public class VoiceIt {
 			try (InputStream inputStream = connection.getResponseCode() == 200 ? connection.getInputStream() : connection.getErrorStream()) {
 				return readInputStream(inputStream);
 			}
-			} 
+			}
 			finally {
 			if (connection != null)
 				connection.disconnect();
 		}
 	}
-	
+
 	public String createEnrollmentByWavURL(String email, String password,String urlToEnrollmentWav) throws IOException {
 		URL url = new URL("https://siv.voiceprintportal.com/sivservice/api/enrollments/bywavurl");
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -215,13 +215,13 @@ public class VoiceIt {
 			try (InputStream inputStream = connection.getResponseCode() == 200 ? connection.getInputStream() : connection.getErrorStream()) {
 				return readInputStream(inputStream);
 			}
-			} 
+			}
 			finally {
 			if (connection != null)
 				connection.disconnect();
 		}
 	}
-	
+
 	public String deleteEnrollment(String email, String password,String enrollmentId) throws IOException {
 		URL url = new URL("https://siv.voiceprintportal.com/sivservice/api/enrollments"+"/"+enrollmentId);
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -235,13 +235,13 @@ public class VoiceIt {
 			try (InputStream inputStream = connection.getResponseCode() == 200 ? connection.getInputStream() : connection.getErrorStream()) {
 				return readInputStream(inputStream);
 			}
-			} 
+			}
 			finally {
 			if (connection != null)
 				connection.disconnect();
 		}
 	}
-	
+
 	public String getEnrollments(String email, String password) throws IOException {
 		URL url = new URL("https://siv.voiceprintportal.com/sivservice/api/enrollments");
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -255,19 +255,21 @@ public class VoiceIt {
 			try (InputStream inputStream = connection.getResponseCode() == 200 ? connection.getInputStream() : connection.getErrorStream()) {
 				return readInputStream(inputStream);
 			}
-			} 
+			}
 			finally {
 			if (connection != null)
 				connection.disconnect();
 		}
 	}
-	
+
 	public String authentication(String email, String password,String pathToAuthenticationWav,String accuracy, String accuracyPasses, String accuracyPassIncrement, String confidence) throws IOException {
 		URL url = new URL("https://siv.voiceprintportal.com/sivservice/api/authentications");
 		byte [] myData = Files.readAllBytes(Paths.get(pathToAuthenticationWav));
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		try {
 			connection.setRequestMethod("POST");
+			connection.setUseCaches(false);
+			connection.setDoOutput(true);
 			connection.addRequestProperty("VsitEmail", email);
 			connection.addRequestProperty("VsitPassword", GetSHA256(password));
 			connection.addRequestProperty("VsitDeveloperId", developerId);
@@ -276,7 +278,7 @@ public class VoiceIt {
 			connection.addRequestProperty("VsitAccuracyPassIncrement", accuracyPassIncrement);
 			connection.addRequestProperty("VsitConfidence", confidence);
 			connection.setRequestProperty("Content-Type","audio/wav");
-			
+
 			DataOutputStream request = new DataOutputStream(connection.getOutputStream());
 			request.write(myData);
 			request.flush();
@@ -286,18 +288,20 @@ public class VoiceIt {
 			try (InputStream inputStream = connection.getResponseCode() == 200 ? connection.getInputStream() : connection.getErrorStream()) {
 				return readInputStream(inputStream);
 			}
-			} 
+			}
 			finally {
 			if (connection != null)
 				connection.disconnect();
 		}
 	}
-	
+
 	public String authenticationByWavURL(String email, String password,String urlToAuthenticationWav,String accuracy, String accuracyPasses,String accuracyPassIncrement,String confidence) throws IOException {
 		URL url = new URL("https://siv.voiceprintportal.com/sivservice/api/authentications/bywavurl");
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		try {
 			connection.setRequestMethod("POST");
+			connection.setUseCaches(false);
+			connection.setDoOutput(true);
 			connection.addRequestProperty("VsitEmail", email);
 			connection.addRequestProperty("VsitPassword", GetSHA256(password));
 			connection.addRequestProperty("VsitDeveloperId", developerId);
@@ -312,12 +316,12 @@ public class VoiceIt {
 			try (InputStream inputStream = connection.getResponseCode() == 200 ? connection.getInputStream() : connection.getErrorStream()) {
 				return readInputStream(inputStream);
 			}
-			} 
+			}
 			finally {
 			if (connection != null)
 				connection.disconnect();
 		}
 	}
-	
-	
+
+
 }
