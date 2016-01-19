@@ -199,7 +199,7 @@ public class VoiceIt {
 		}
 	}
 
-	public String createEnrollment(String email, String password,String pathToEnrollmentWav){
+	public String createEnrollment(String email, String password,String pathToEnrollmentWav)throws IOException{
 		try{
 			return createEnrollment(email,password,pathToEnrollmentWav,"");
 		}
@@ -233,7 +233,7 @@ public class VoiceIt {
 		}
 	}
 
-	public String createEnrollmentByWavURL(String email, String password,String urlToEnrollmentWav){
+	public String createEnrollmentByWavURL(String email, String password,String urlToEnrollmentWav)throws IOException{
 		try{
 			return createEnrollmentByWavURL(email,password,urlToEnrollmentWav,"");
 		}
@@ -316,7 +316,7 @@ public class VoiceIt {
 		}
 	}
 
-	public String authentication(String email, String password,String pathToAuthenticationWav,String accuracy, String accuracyPasses, String accuracyPassIncrement, String confidence){
+	public String authentication(String email, String password,String pathToAuthenticationWav,String accuracy, String accuracyPasses, String accuracyPassIncrement, String confidence)throws IOException{
 		try{
 			return authentication(email, password, pathToAuthenticationWav, accuracy, accuracyPasses, accuracyPassIncrement,confidence,"");
 		}
@@ -354,7 +354,7 @@ public class VoiceIt {
 		}
 	}
 
-	public String authenticationByWavURL(String email, String password,String urlToAuthenticationWav,String accuracy, String accuracyPasses, String accuracyPassIncrement, String confidence){
+	public String authenticationByWavURL(String email, String password,String urlToAuthenticationWav,String accuracy, String accuracyPasses, String accuracyPassIncrement, String confidence)throws IOException{
 		try{
 			return authenticationByWavURL(email, password, urlToAuthenticationWav, accuracy, accuracyPasses, accuracyPassIncrement,confidence,"");
 		}
