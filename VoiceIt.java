@@ -12,7 +12,7 @@ import java.security.NoSuchAlgorithmException;
 public class VoiceIt {
 
 	String developerId;
-
+	String platformId = "3";
 	public VoiceIt(String developerId) {
 		this.developerId = developerId;
 	}
@@ -57,7 +57,7 @@ public class VoiceIt {
 			connection.addRequestProperty("VsitEmail", email);
 			connection.addRequestProperty("VsitPassword", GetSHA256(password));
 			connection.addRequestProperty("VsitDeveloperId", developerId);
-
+			connection.addRequestProperty("PlatformID", platformId);
 			// read response
 			try (InputStream inputStream = connection.getResponseCode() == 200 ? connection.getInputStream() : connection.getErrorStream()) {
 				return readInputStream(inputStream);
@@ -82,6 +82,7 @@ public class VoiceIt {
 			connection.addRequestProperty("VsitPhone1", phone1);
 			connection.addRequestProperty("VsitPhone2", phone2);
 			connection.addRequestProperty("VsitPhone3", phone3);
+			connection.addRequestProperty("PlatformID", platformId);
 
 			// read response
 			try (InputStream inputStream = connection.getResponseCode() == 200 ? connection.getInputStream() : connection.getErrorStream()) {
@@ -124,6 +125,7 @@ public class VoiceIt {
 			connection.addRequestProperty("VsitPhone1", phone1);
 			connection.addRequestProperty("VsitPhone2", phone2);
 			connection.addRequestProperty("VsitPhone3", phone3);
+			connection.addRequestProperty("PlatformID", platformId);
 
 			// read response
 			try (InputStream inputStream = connection.getResponseCode() == 200 ? connection.getInputStream() : connection.getErrorStream()) {
@@ -159,6 +161,7 @@ public class VoiceIt {
 			connection.addRequestProperty("VsitEmail", email);
 			connection.addRequestProperty("VsitPassword", GetSHA256(password));
 			connection.addRequestProperty("VsitDeveloperId", developerId);
+			connection.addRequestProperty("PlatformID", platformId);
 
 			// read response
 			try (InputStream inputStream = connection.getResponseCode() == 200 ? connection.getInputStream() : connection.getErrorStream()) {
@@ -179,6 +182,7 @@ public class VoiceIt {
 			connection.setRequestMethod("POST");
 			connection.setUseCaches(false);
 			connection.setDoOutput(true);
+			connection.addRequestProperty("PlatformID", platformId);
 			connection.addRequestProperty("VsitEmail", email);
 			connection.addRequestProperty("VsitPassword", GetSHA256(password));
 			connection.addRequestProperty("VsitDeveloperId", developerId);
@@ -220,6 +224,7 @@ public class VoiceIt {
 			connection.addRequestProperty("VsitDeveloperId", developerId);
 			connection.addRequestProperty("VsitwavURL", urlToEnrollmentWav);
 			connection.addRequestProperty("ContentLanguage", contentLanguage);
+			connection.addRequestProperty("PlatformID", platformId);
 			connection.setRequestProperty("Content-Type","audio/wav");
 
 			// read response
@@ -250,6 +255,7 @@ public class VoiceIt {
 			connection.addRequestProperty("VsitEmail", email);
 			connection.addRequestProperty("VsitPassword", GetSHA256(password));
 			connection.addRequestProperty("VsitDeveloperId", developerId);
+			connection.addRequestProperty("PlatformID", platformId);
 
 			// read response
 			try (InputStream inputStream = connection.getResponseCode() == 200 ? connection.getInputStream() : connection.getErrorStream()) {
@@ -270,6 +276,7 @@ public class VoiceIt {
 			connection.addRequestProperty("VsitEmail", email);
 			connection.addRequestProperty("VsitPassword", GetSHA256(password));
 			connection.addRequestProperty("VsitDeveloperId", developerId);
+			connection.addRequestProperty("PlatformID", platformId);
 
 			// read response
 			try (InputStream inputStream = connection.getResponseCode() == 200 ? connection.getInputStream() : connection.getErrorStream()) {
@@ -298,6 +305,7 @@ public class VoiceIt {
 			connection.addRequestProperty("VsitAccuracyPassIncrement", accuracyPassIncrement);
 			connection.addRequestProperty("VsitConfidence", confidence);
 			connection.addRequestProperty("ContentLanguage", contentLanguage);
+			connection.addRequestProperty("PlatformID", platformId);
 			connection.setRequestProperty("Content-Type","audio/wav");
 
 			DataOutputStream request = new DataOutputStream(connection.getOutputStream());
@@ -341,6 +349,7 @@ public class VoiceIt {
 			connection.addRequestProperty("VsitConfidence", confidence);
 			connection.addRequestProperty("VsitwavURL", urlToAuthenticationWav);
 			connection.addRequestProperty("ContentLanguage", contentLanguage);
+			connection.addRequestProperty("PlatformID", platformId);
 			connection.setRequestProperty("Content-Type","audio/wav");
 
 			// read response
