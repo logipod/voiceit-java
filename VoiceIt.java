@@ -289,7 +289,7 @@ public class VoiceIt {
 		}
 	}
 
-	public String authentication(String email, String password,String pathToAuthenticationWav,String accuracy, String accuracyPasses, String accuracyPassIncrement, String confidence, String contentLanguage) throws IOException {
+	public String authentication(String email, String password,String pathToAuthenticationWav, String confidence, String contentLanguage) throws IOException {
 		URL url = new URL("https://siv.voiceprintportal.com/sivservice/api/authentications");
 		byte [] myData = Files.readAllBytes(Paths.get(pathToAuthenticationWav));
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -300,9 +300,6 @@ public class VoiceIt {
 			connection.addRequestProperty("VsitEmail", email);
 			connection.addRequestProperty("VsitPassword", GetSHA256(password));
 			connection.addRequestProperty("VsitDeveloperId", developerId);
-			connection.addRequestProperty("VsitAccuracy", accuracy);
-			connection.addRequestProperty("VsitAccuracyPasses", accuracyPasses);
-			connection.addRequestProperty("VsitAccuracyPassIncrement", accuracyPassIncrement);
 			connection.addRequestProperty("VsitConfidence", confidence);
 			connection.addRequestProperty("ContentLanguage", contentLanguage);
 			connection.addRequestProperty("PlatformID", platformId);
@@ -324,16 +321,16 @@ public class VoiceIt {
 		}
 	}
 
-	public String authentication(String email, String password,String pathToAuthenticationWav,String accuracy, String accuracyPasses, String accuracyPassIncrement, String confidence)throws IOException{
+	public String authentication(String email, String password, String pathToAuthenticationWav, String confidence)throws IOException{
 		try{
-			return authentication(email, password, pathToAuthenticationWav, accuracy, accuracyPasses, accuracyPassIncrement,confidence,"");
+			return authentication(email, password, pathToAuthenticationWav, confidence,"");
 		}
 		catch(IOException e){
 			return "Failed: IOException";
 		}
 	}
 
-	public String authenticationByWavURL(String email, String password,String urlToAuthenticationWav,String accuracy, String accuracyPasses,String accuracyPassIncrement,String confidence,String contentLanguage) throws IOException {
+	public String authenticationByWavURL(String email, String password, String urlToAuthenticationWav, String confidence, String contentLanguage) throws IOException {
 		URL url = new URL("https://siv.voiceprintportal.com/sivservice/api/authentications/bywavurl");
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		try {
@@ -343,9 +340,6 @@ public class VoiceIt {
 			connection.addRequestProperty("VsitEmail", email);
 			connection.addRequestProperty("VsitPassword", GetSHA256(password));
 			connection.addRequestProperty("VsitDeveloperId", developerId);
-			connection.addRequestProperty("VsitAccuracy", accuracy);
-			connection.addRequestProperty("VsitAccuracyPasses", accuracyPasses);
-			connection.addRequestProperty("VsitAccuracyPassIncrement", accuracyPassIncrement);
 			connection.addRequestProperty("VsitConfidence", confidence);
 			connection.addRequestProperty("VsitwavURL", urlToAuthenticationWav);
 			connection.addRequestProperty("ContentLanguage", contentLanguage);
@@ -363,9 +357,9 @@ public class VoiceIt {
 		}
 	}
 
-	public String authenticationByWavURL(String email, String password,String urlToAuthenticationWav,String accuracy, String accuracyPasses, String accuracyPassIncrement, String confidence)throws IOException{
+	public String authenticationByWavURL(String email, String password, String urlToAuthenticationWav, String confidence)throws IOException{
 		try{
-			return authenticationByWavURL(email, password, urlToAuthenticationWav, accuracy, accuracyPasses, accuracyPassIncrement,confidence,"");
+			return authenticationByWavURL(email, password, urlToAuthenticationWav, confidence,"");
 		}
 		catch(IOException e){
 			return "Failed: IOException";
