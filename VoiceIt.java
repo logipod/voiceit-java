@@ -49,12 +49,12 @@ public class VoiceIt {
 		}
 	}
 
-	public String getUser(String email, String password) throws IOException {
+	public String getUser(String userId, String password) throws IOException {
 		URL url = new URL("https://siv.voiceprintportal.com/sivservice/api/users");
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		try {
 			connection.setRequestMethod("GET");
-			connection.addRequestProperty("VsitEmail", email);
+			connection.addRequestProperty("UserId", userId);
 			connection.addRequestProperty("VsitPassword", GetSHA256(password));
 			connection.addRequestProperty("VsitDeveloperId", developerId);
 			connection.addRequestProperty("PlatformID", platformId);
@@ -69,19 +69,14 @@ public class VoiceIt {
 		}
 	}
 
-	public String createUser(String email, String password,String firstName,String lastName, String phone1,String phone2,String phone3) throws IOException {
+	public String createUser(String userId, String password) throws IOException {
 		URL url = new URL("https://siv.voiceprintportal.com/sivservice/api/users");
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		try {
 			connection.setRequestMethod("POST");
-			connection.addRequestProperty("VsitEmail", email);
+			connection.addRequestProperty("UserId", userId);
 			connection.addRequestProperty("VsitPassword", GetSHA256(password));
 			connection.addRequestProperty("VsitDeveloperId", developerId);
-			connection.addRequestProperty("VsitFirstName", firstName);
-			connection.addRequestProperty("VsitLastName", lastName);
-			connection.addRequestProperty("VsitPhone1", phone1);
-			connection.addRequestProperty("VsitPhone2", phone2);
-			connection.addRequestProperty("VsitPhone3", phone3);
 			connection.addRequestProperty("PlatformID", platformId);
 
 			// read response
@@ -95,70 +90,12 @@ public class VoiceIt {
 		}
 	}
 
-	//Added CreateUser Method Calls to make the phone numbers optional
-	public String createUser(String email, String password,String firstName,String lastName) throws IOException
-	{
-		return createUser(email,password,firstName,lastName,"","","");
-	}
-
-	public String createUser(String email, String password,String firstName,String lastName,String phone1) throws IOException
-	{
-		return createUser(email,password,firstName,lastName,phone1,"","");
-	}
-
-	public String createUser(String email, String password,String firstName,String lastName,String phone1,String phone2) throws IOException
-	{
-		return createUser(email,password,firstName,lastName,phone1,phone2,"");
-	}
-
-
-	public String setUser(String email, String password,String firstName,String lastName, String phone1,String phone2,String phone3) throws IOException {
-		URL url = new URL("https://siv.voiceprintportal.com/sivservice/api/users");
-		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-		try {
-			connection.setRequestMethod("PUT");
-			connection.addRequestProperty("VsitEmail", email);
-			connection.addRequestProperty("VsitPassword", GetSHA256(password));
-			connection.addRequestProperty("VsitDeveloperId", developerId);
-			connection.addRequestProperty("VsitFirstName", firstName);
-			connection.addRequestProperty("VsitLastName", lastName);
-			connection.addRequestProperty("VsitPhone1", phone1);
-			connection.addRequestProperty("VsitPhone2", phone2);
-			connection.addRequestProperty("VsitPhone3", phone3);
-			connection.addRequestProperty("PlatformID", platformId);
-
-			// read response
-			try (InputStream inputStream = connection.getResponseCode() == 200 ? connection.getInputStream() : connection.getErrorStream()) {
-				return readInputStream(inputStream);
-			}
-			}
-			finally {
-			if (connection != null)
-				connection.disconnect();
-		}
-	}
-
-	public String setUser(String email, String password,String firstName,String lastName) throws IOException
-	{
-		return setUser(email,password,firstName,lastName,"","","");
-	}
-
-	public String setUser(String email, String password,String firstName,String lastName,String phone1) throws IOException
-	{
-		return setUser(email,password,firstName,lastName,phone1,"","");
-	}
-
-	public String setUser(String email, String password,String firstName,String lastName,String phone1,String phone2) throws IOException
-	{
-		return setUser(email,password,firstName,lastName,phone1,phone2,"");
-	}
-
-	public String deleteUser(String email, String password) throws IOException {
+	public String deleteUser(String userId, String password) throws IOException {
 		URL url = new URL("https://siv.voiceprintportal.com/sivservice/api/users");
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		try {
 			connection.setRequestMethod("DELETE");
-			connection.addRequestProperty("VsitEmail", email);
+			connection.addRequestProperty("UserId", userId);
 			connection.addRequestProperty("VsitPassword", GetSHA256(password));
 			connection.addRequestProperty("VsitDeveloperId", developerId);
 			connection.addRequestProperty("PlatformID", platformId);
@@ -174,7 +111,7 @@ public class VoiceIt {
 		}
 	}
 
-	public String createEnrollment(String email, String password,String pathToEnrollmentWav,String contentLanguage) throws IOException {
+	public String createEnrollment(String userId, String password,String pathToEnrollmentWav,String contentLanguage) throws IOException {
 		URL url = new URL("https://siv.voiceprintportal.com/sivservice/api/enrollments");
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		byte [] myData = Files.readAllBytes(Paths.get(pathToEnrollmentWav));
@@ -183,7 +120,7 @@ public class VoiceIt {
 			connection.setUseCaches(false);
 			connection.setDoOutput(true);
 			connection.addRequestProperty("PlatformID", platformId);
-			connection.addRequestProperty("VsitEmail", email);
+			connection.addRequestProperty("UserId", userId);
 			connection.addRequestProperty("VsitPassword", GetSHA256(password));
 			connection.addRequestProperty("VsitDeveloperId", developerId);
 			connection.addRequestProperty("ContentLanguage", contentLanguage);
@@ -203,23 +140,23 @@ public class VoiceIt {
 		}
 	}
 
-	public String createEnrollment(String email, String password,String pathToEnrollmentWav)throws IOException{
+	public String createEnrollment(String userId, String password,String pathToEnrollmentWav)throws IOException{
 		try{
-			return createEnrollment(email,password,pathToEnrollmentWav,"");
+			return createEnrollment(userId,password,pathToEnrollmentWav,"");
 		}
 		catch(IOException e){
 			return "Failed: IOException";
 		}
 	}
 
-	public String createEnrollmentByWavURL(String email, String password,String urlToEnrollmentWav,String contentLanguage) throws IOException {
+	public String createEnrollmentByWavURL(String userId, String password,String urlToEnrollmentWav,String contentLanguage) throws IOException {
 		URL url = new URL("https://siv.voiceprintportal.com/sivservice/api/enrollments/bywavurl");
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		try {
 			connection.setRequestMethod("POST");
 			connection.setUseCaches(false);
 			connection.setDoOutput(true);
-			connection.addRequestProperty("VsitEmail", email);
+			connection.addRequestProperty("UserId", userId);
 			connection.addRequestProperty("VsitPassword", GetSHA256(password));
 			connection.addRequestProperty("VsitDeveloperId", developerId);
 			connection.addRequestProperty("VsitwavURL", urlToEnrollmentWav);
@@ -238,21 +175,21 @@ public class VoiceIt {
 		}
 	}
 
-	public String createEnrollmentByWavURL(String email, String password,String urlToEnrollmentWav)throws IOException{
+	public String createEnrollmentByWavURL(String userId, String password,String urlToEnrollmentWav)throws IOException{
 		try{
-			return createEnrollmentByWavURL(email,password,urlToEnrollmentWav,"");
+			return createEnrollmentByWavURL(userId,password,urlToEnrollmentWav,"");
 		}
 		catch(IOException e){
 			return "Failed: IOException";
 		}
 	}
 
-	public String deleteEnrollment(String email, String password,String enrollmentId) throws IOException {
+	public String deleteEnrollment(String userId, String password,String enrollmentId) throws IOException {
 		URL url = new URL("https://siv.voiceprintportal.com/sivservice/api/enrollments"+"/"+enrollmentId);
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		try {
 			connection.setRequestMethod("DELETE");
-			connection.addRequestProperty("VsitEmail", email);
+			connection.addRequestProperty("UserId", userId);
 			connection.addRequestProperty("VsitPassword", GetSHA256(password));
 			connection.addRequestProperty("VsitDeveloperId", developerId);
 			connection.addRequestProperty("PlatformID", platformId);
@@ -268,12 +205,12 @@ public class VoiceIt {
 		}
 	}
 
-	public String getEnrollments(String email, String password) throws IOException {
+	public String getEnrollments(String userId, String password) throws IOException {
 		URL url = new URL("https://siv.voiceprintportal.com/sivservice/api/enrollments");
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		try {
 			connection.setRequestMethod("GET");
-			connection.addRequestProperty("VsitEmail", email);
+			connection.addRequestProperty("UserId", userId);
 			connection.addRequestProperty("VsitPassword", GetSHA256(password));
 			connection.addRequestProperty("VsitDeveloperId", developerId);
 			connection.addRequestProperty("PlatformID", platformId);
@@ -289,7 +226,7 @@ public class VoiceIt {
 		}
 	}
 
-	public String authentication(String email, String password,String pathToAuthenticationWav, String confidence, String contentLanguage) throws IOException {
+	public String authentication(String userId, String password,String pathToAuthenticationWav, String contentLanguage) throws IOException {
 		URL url = new URL("https://siv.voiceprintportal.com/sivservice/api/authentications");
 		byte [] myData = Files.readAllBytes(Paths.get(pathToAuthenticationWav));
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -297,10 +234,9 @@ public class VoiceIt {
 			connection.setRequestMethod("POST");
 			connection.setUseCaches(false);
 			connection.setDoOutput(true);
-			connection.addRequestProperty("VsitEmail", email);
+			connection.addRequestProperty("UserId", userId);
 			connection.addRequestProperty("VsitPassword", GetSHA256(password));
 			connection.addRequestProperty("VsitDeveloperId", developerId);
-			connection.addRequestProperty("VsitConfidence", confidence);
 			connection.addRequestProperty("ContentLanguage", contentLanguage);
 			connection.addRequestProperty("PlatformID", platformId);
 			connection.setRequestProperty("Content-Type","audio/wav");
@@ -321,26 +257,25 @@ public class VoiceIt {
 		}
 	}
 
-	public String authentication(String email, String password, String pathToAuthenticationWav, String confidence)throws IOException{
+	public String authentication(String userId, String password, String pathToAuthenticationWav)throws IOException{
 		try{
-			return authentication(email, password, pathToAuthenticationWav, confidence,"");
+			return authentication(userId, password, pathToAuthenticationWav,"");
 		}
 		catch(IOException e){
 			return "Failed: IOException";
 		}
 	}
 
-	public String authenticationByWavURL(String email, String password, String urlToAuthenticationWav, String confidence, String contentLanguage) throws IOException {
+	public String authenticationByWavURL(String userId, String password, String urlToAuthenticationWav, String contentLanguage) throws IOException {
 		URL url = new URL("https://siv.voiceprintportal.com/sivservice/api/authentications/bywavurl");
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		try {
 			connection.setRequestMethod("POST");
 			connection.setUseCaches(false);
 			connection.setDoOutput(true);
-			connection.addRequestProperty("VsitEmail", email);
+			connection.addRequestProperty("UserId", userId);
 			connection.addRequestProperty("VsitPassword", GetSHA256(password));
 			connection.addRequestProperty("VsitDeveloperId", developerId);
-			connection.addRequestProperty("VsitConfidence", confidence);
 			connection.addRequestProperty("VsitwavURL", urlToAuthenticationWav);
 			connection.addRequestProperty("ContentLanguage", contentLanguage);
 			connection.addRequestProperty("PlatformID", platformId);
@@ -357,9 +292,9 @@ public class VoiceIt {
 		}
 	}
 
-	public String authenticationByWavURL(String email, String password, String urlToAuthenticationWav, String confidence)throws IOException{
+	public String authenticationByWavURL(String userId, String password, String urlToAuthenticationWav)throws IOException{
 		try{
-			return authenticationByWavURL(email, password, urlToAuthenticationWav, confidence,"");
+			return authenticationByWavURL(userId, password, urlToAuthenticationWav,"");
 		}
 		catch(IOException e){
 			return "Failed: IOException";
